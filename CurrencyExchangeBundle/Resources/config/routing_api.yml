@@ -1,0 +1,4 @@
+currency:
+    resource: Exchanger\CurrencyExchangeBundle\Controller\CurrencyApiController
+    type: rest
+    name_prefix: exchanger_currency_exchange_

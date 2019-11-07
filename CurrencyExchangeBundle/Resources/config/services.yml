@@ -1,0 +1,132 @@
+parameters:
+    currency_source_british_pound_api_url: 'https://min-api.cryptocompare.com/data/price?fsym=GBP&tsyms=GBP'
+    currency_source_us_dollar_api_url: 'https://min-api.cryptocompare.com/data/price?fsym=GBP&tsyms=USD'
+    currency_source_euro_api_url: 'https://min-api.cryptocompare.com/data/price?fsym=GBP&tsyms=EUR'
+    currency_source_bitcoin_api_url: 'https://min-api.cryptocompare.com/data/price?fsym=GBP&tsyms=BTC'
+    currency_source_ethereum_api_url: 'https://min-api.cryptocompare.com/data/price?fsym=GBP&tsyms=ETH'
+    currency_source_ripple_api_url: 'https://min-api.cryptocompare.com/data/price?fsym=GBP&tsyms=XRP'
+    currency_source_litecoin_api_url: 'https://min-api.cryptocompare.com/data/price?fsym=GBP&tsyms=LTC'
+    currency_source_zcash_api_url: 'https://min-api.cryptocompare.com/data/price?fsym=GBP&tsyms=ZEC'
+
+services:
+    exchanger.admin.currency:
+        class: Exchanger\CurrencyExchangeBundle\Admin\CurrencyAdmin
+        arguments: [~, Exchanger\CurrencyExchangeBundle\Entity\Currency, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: wordindex, label: Currencies }
+
+    exchanger.currency_exchange_bundle.currency_source.british_pound:
+        class: Exchanger\CurrencyExchangeBundle\Service\Currency\Sources\BritishPoundSource
+        arguments:
+            - '@httplug.client.default'
+            - '@httplug.message_factory.default'
+            - '%currency_source_british_pound_api_url%'
+
+    exchanger.currency_exchange_bundle.currency_source.united_states_dollar:
+        class: Exchanger\CurrencyExchangeBundle\Service\Currency\Sources\UnitedStatesDollarSource
+        arguments:
+            - '@httplug.client.default'
+            - '@httplug.message_factory.default'
+            - '%currency_source_us_dollar_api_url%'
+
+    exchanger.currency_exchange_bundle.currency_source.euro:
+        class: Exchanger\CurrencyExchangeBundle\Service\Currency\Sources\EuroSource
+        arguments:
+            - '@httplug.client.default'
+            - '@httplug.message_factory.default'
+            - '%currency_source_euro_api_url%'
+
+    exchanger.currency_exchange_bundle.currency_source.bitcoin:
+        class: Exchanger\CurrencyExchangeBundle\Service\Currency\Sources\BitcoinSource
+        arguments:
+            - '@httplug.client.default'
+            - '@httplug.message_factory.default'
+            - '%currency_source_bitcoin_api_url%'
+
+    exchanger.currency_exchange_bundle.currency_source.ethereum:
+        class: Exchanger\CurrencyExchangeBundle\Service\Currency\Sources\EthereumSource
+        arguments:
+            - '@httplug.client.default'
+            - '@httplug.message_factory.default'
+            - '%currency_source_ethereum_api_url%'
+
+    exchanger.currency_exchange_bundle.currency_source.ripple:
+        class: Exchanger\CurrencyExchangeBundle\Service\Currency\Sources\RippleSource
+        arguments:
+            - '@httplug.client.default'
+            - '@httplug.message_factory.default'
+            - '%currency_source_ripple_api_url%'
+
+    exchanger.currency_exchange_bundle.currency_source.litecoin:
+        class: Exchanger\CurrencyExchangeBundle\Service\Currency\Sources\LitecoinSource
+        arguments:
+            - '@httplug.client.default'
+            - '@httplug.message_factory.default'
+            - '%currency_source_litecoin_api_url%'
+
+    exchanger.currency_exchange_bundle.currency_source.zcash:
+        class: Exchanger\CurrencyExchangeBundle\Service\Currency\Sources\ZcashSource
+        arguments:
+            - '@httplug.client.default'
+            - '@httplug.message_factory.default'
+            - '%currency_source_zcash_api_url%'
+
+    exchanger.currency_exchange_bundle.currency_rates_updater:
+        class: Exchanger\CurrencyExchangeBundle\Service\Currency\CurrencyRatesUpdater
+        arguments:
+                - '@doctrine.orm.entity_manager'
+                - '@httplug.client.default'
+                - '@httplug.message_factory.default'
+        calls:
+            - [addCurrencySource, ['@exchanger.currency_exchange_bundle.currency_source.british_pound']]
+            - [addCurrencySource, ['@exchanger.currency_exchange_bundle.currency_source.united_states_dollar']]
+            - [addCurrencySource, ['@exchanger.currency_exchange_bundle.currency_source.euro']]
+            - [addCurrencySource, ['@exchanger.currency_exchange_bundle.currency_source.bitcoin']]
+            - [addCurrencySource, ['@exchanger.currency_exchange_bundle.currency_source.ethereum']]
+            - [addCurrencySource, ['@exchanger.currency_exchange_bundle.currency_source.ripple']]
+            - [addCurrencySource, ['@exchanger.currency_exchange_bundle.currency_source.litecoin']]
+            - [addCurrencySource, ['@exchanger.currency_exchange_bundle.currency_source.zcash']]
+
+    exchanger.currency_exchange_bundle.money.formatter:
+        class: Exchanger\CurrencyExchangeBundle\Service\Money\MoneyFormatter
+        arguments: ['@doctrine.orm.entity_manager']
+
+    exchanger.currency_exchange_bundle.money.converter:
+        class: Exchanger\CurrencyExchangeBundle\Service\Money\MoneyConverter
+        arguments: ['@doctrine.orm.entity_manager']
+
+    exchanger.currency_exchange_bundle.twig.money_format:
+        class: Exchanger\CurrencyExchangeBundle\Twig\MoneyExtension
+        arguments: ['@exchanger.currency_exchange_bundle.money.formatter']
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    exchanger.currency_exchange_bundle.form.money_model_transformer:
+        class: Exchanger\CurrencyExchangeBundle\Form\DataTransformer\MoneyModelTransformer
+        arguments: ['@exchanger.currency_exchange_bundle.money.formatter']
+
+    exchanger.currency_exchange_bundle.form.money_view_transformer:
+        class: Exchanger\CurrencyExchangeBundle\Form\DataTransformer\MoneyViewTransformer
+        arguments: ['@exchanger.currency_exchange_bundle.money.formatter']
+
+    exchanger.currency_exchange_bundle.form.type.money:
+        class: Exchanger\CurrencyExchangeBundle\Form\Type\MoneyType
+        arguments:
+            - '@exchanger.currency_exchange_bundle.form.money_model_transformer'
+            - '@exchanger.currency_exchange_bundle.form.money_view_transformer'
+        tags:
+            - { name: form.type }
+
+    exchanger.currency_exchange_bundle.money_serializer_handler:
+        class:     Exchanger\CurrencyExchangeBundle\EventListener\MoneySerializerHandler
+        arguments: ['@exchanger.currency_exchange_bundle.money.formatter']
+        tags:
+            - { name: jms_serializer.subscribing_handler }
+
+    exchanger.currency_exchange_bundle.faker.provider.money:
+        class: Exchanger\CurrencyExchangeBundle\Faker\Provider\MoneyProvider
+        arguments: ['@nelmio_alice.faker.generator']
+        public: false
+        tags:
+            - { name: nelmio_alice.faker.provider }

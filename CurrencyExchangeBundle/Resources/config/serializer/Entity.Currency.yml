@@ -1,0 +1,33 @@
+Exchanger\CurrencyExchangeBundle\Entity\Currency:
+    exclusion_policy: ALL
+    properties:
+        code:
+            expose: true
+            type: string
+            groups:
+                - 'currency-list'
+        name:
+            expose: true
+            type: string
+            groups:
+                - 'currency-list'
+        prefix:
+            expose: true
+            type: string
+            groups:
+                - 'currency-list'
+        suffix:
+            expose: true
+            type: string
+            groups:
+                - 'currency-list'
+        rate:
+            expose: true
+            type: float
+            groups:
+                - 'currency-list'
+        precision:
+            expose: true
+            type: integer
+            groups:
+                - 'currency-list'

@@ -1,0 +1,13 @@
+{% block youteam_money_label_widget %}
+    {% set attr = attr|merge({ 'class': attr.class|default('') }) %}
+
+    {% if form.vars.value is defined %}
+        <span{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            {% if form.vars.value is not null and form.vars.value is not empty %}
+                {{ form.vars.value|money_format }}
+            {% else %}
+                -
+            {% endif %}
+        </span>
+    {% endif %}
+{% endblock %}

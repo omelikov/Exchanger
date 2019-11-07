@@ -1,0 +1,6 @@
+services:
+    exchanger.currency_exchange_bundle.data_fixtures.currency:
+        class: Exchanger\CurrencyExchangeBundle\DataFixtures\CurrencyFixtures
+        parent: exchanger.core_bundle.data_fixtures.abstract_youteam_fixture
+        tags:
+            - { name: doctrine.fixture.orm }

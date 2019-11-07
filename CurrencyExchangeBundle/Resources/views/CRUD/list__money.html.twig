@@ -1,0 +1,11 @@
+{% extends admin.getTemplate('base_list_field') %}
+
+{% block field %}
+    {% spaceless %}
+        {% if value is not null %}
+            {{ value|money_format }}
+        {% else %}
+            -
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}

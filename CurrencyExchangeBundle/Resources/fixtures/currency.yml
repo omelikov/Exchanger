@@ -1,0 +1,81 @@
+CurrencyExchangeBundle\Entity\Currency:
+    currency_gbp:
+        code: GBP
+        name: British Pound
+        prefix: '£'
+        suffix: ''
+        rate: 1.00000000
+        precision: 2
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        deletedAt: null
+    currency_usd:
+        code: USD
+        name: US Dollar
+        prefix: '\$'
+        suffix: ''
+        rate: 1.33000000
+        precision: 2
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        deletedAt: null
+    currency_eur:
+        code: EUR
+        name: Euro
+        prefix: '€'
+        suffix: ''
+        rate: 1.13000000
+        precision: 2
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        deletedAt: null
+    currency_btc:
+        code: BTC
+        name: Bitcoin
+        prefix: ''
+        suffix: 'BTC'
+        rate: 0.00017410
+        precision: 8
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        deletedAt: null
+    currency_eth:
+        code: ETH
+        name: Ethereum
+        prefix: ''
+        suffix: 'ETH'
+        rate: 0.00218000
+        precision: 8
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        deletedAt: null
+    currency_xrp:
+        code: XRP
+        name: Ripple
+        prefix: ''
+        suffix: 'XRP'
+        rate: 1.98000000
+        precision: 8
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        deletedAt: null
+    currency_ltc:
+        code: LTC
+        name: Litecoin
+        prefix: ''
+        suffix: 'LTC'
+        rate: 0.01095000
+        precision: 8
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        deletedAt: null
+    currency_zec:
+        code: ZEC
+        name: Zcash
+        prefix: ''
+        suffix: 'ZEC'
+        rate: 0.00571300
+        precision: 8
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        deletedAt: null
